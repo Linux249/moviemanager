@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="icons"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.commands_3.8.0.v20160316-1921.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.equinox.common_3.8.0.v20160509-1230.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.jface_3.12.0.v20160518-1929.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.osgi_3.11.0.v20160504-1419.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.ui.workbench_3.108.0.v20160524-1314.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.jface.databinding_1.8.0.v20160420-2231.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.databinding_1.6.0.v20160412-0910.jar"/>
+	<classpathentry kind="lib" path="lib/com.ibm.icu_56.1.0.v201601250100.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.databinding.beans_1.3.100.v20160509-1025.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.databinding.property_1.6.0.v20160427-0852.jar"/>
+	<classpathentry kind="lib" path="lib/org.eclipse.core.databinding.observable_1.6.0.v20160511-1747.jar"/>
+	<classpathentry kind="lib" path="lib/commons-lang3-3.4.jar"/>
+	<classpathentry kind="lib" path="lib/junit.jar"/>
+	<classpathentry kind="lib" path="lib/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+	<classpathentry kind="lib" path="lib/swt/win64/swt.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

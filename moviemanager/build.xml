@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="all" name="Create Runnable Jar for Project MovieManager with Jar-in-Jar Loader">
+    <!--this file was created by Eclipse Runnable JAR file Export Wizard-->
+    <!--ANT 1.7 is required-->
+    <!--define folder properties-->	
+    <property name="dir.main" value=""/>
+	<!-- Classpaths for the different SWT JARs -->
+	<path id="classpath_win32"><fileset dir="lib" includes="*.jar"/><fileset dir="lib/swt/win32" includes="swt.jar"/></path>
+	<path id="classpath_win64"><fileset dir="lib" includes="*.jar"/><fileset dir="lib/swt/win64" includes="swt.jar"/></path>
+	<path id="classpath_linux32"><fileset dir="lib" includes="*.jar"/><fileset dir="lib/swt/linux32" includes="swt.jar"/></path>
+	<path id="classpath_linux64"><fileset dir="lib" includes="*.jar"/><fileset dir="lib/swt/linux64" includes="swt.jar"/></path>
+	<!-- Deletes the "build" folder-->
+	<target name="clean">
+	  <delete dir="build"/>
+	</target>
+	<!-- Builds all targets (Default) -->
+	<target name="all" depends="create_run_jar_linux64,create_run_jar_linux32,create_run_jar_win64,create_run_jar_win32">
+	</target>
+	<!-- Creates the MovieManager using the SWT JAR for 32-bit Windows -->
+	<target name="create_run_jar_win32" depends="compile_win32">
+        <jar destfile="build/moviemanager_win32.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="moviemanager.MovieManager"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ swt.jar org.eclipse.core.commands_3.8.0.v20160316-1921.jar org.eclipse.equinox.common_3.8.0.v20160509-1230.jar org.eclipse.jface_3.12.0.v20160518-1929.jar org.eclipse.osgi_3.11.0.v20160504-1419.jar org.eclipse.ui.workbench_3.108.0.v20160524-1314.jar org.eclipse.jface.databinding_1.8.0.v20160420-2231.jar org.eclipse.core.databinding_1.6.0.v20160412-0910.jar com.ibm.icu_56.1.0.v201601250100.jar org.eclipse.core.databinding.beans_1.3.100.v20160509-1025.jar org.eclipse.core.databinding.property_1.6.0.v20160427-0852.jar org.eclipse.core.databinding.observable_1.6.0.v20160511-1747.jar commons-lang3-3.4.jar junit.jar org.hamcrest.core_1.3.0.v201303031735.jar"/>
+            </manifest>
+            <zipfileset src="lib/jar-in-jar-loader.zip"/>
+            <fileset dir="build/classes_win32"/>
+            <zipfileset dir="lib/swt/win32" includes="swt.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.commands_3.8.0.v20160316-1921.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.equinox.common_3.8.0.v20160509-1230.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.jface_3.12.0.v20160518-1929.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.osgi_3.11.0.v20160504-1419.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.ui.workbench_3.108.0.v20160524-1314.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.jface.databinding_1.8.0.v20160420-2231.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.databinding_1.6.0.v20160412-0910.jar"/>
+            <zipfileset dir="lib" includes="com.ibm.icu_56.1.0.v201601250100.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.databinding.beans_1.3.100.v20160509-1025.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.databinding.property_1.6.0.v20160427-0852.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.databinding.observable_1.6.0.v20160511-1747.jar"/>
+            <zipfileset dir="lib" includes="commons-lang3-3.4.jar"/>
+            <zipfileset dir="lib" includes="junit.jar"/>
+            <zipfileset dir="lib" includes="org.hamcrest.core_1.3.0.v201303031735.jar"/>
+        </jar>
+    </target>
+	<!-- Creates the MovieManager using the SWT JAR for 64-bit Windows -->
+	<target name="create_run_jar_win64" depends="compile_win64">
+        <jar destfile="build/moviemanager_win64.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="moviemanager.MovieManager"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ swt.jar org.eclipse.core.commands_3.8.0.v20160316-1921.jar org.eclipse.equinox.common_3.8.0.v20160509-1230.jar org.eclipse.jface_3.12.0.v20160518-1929.jar org.eclipse.osgi_3.11.0.v20160504-1419.jar org.eclipse.ui.workbench_3.108.0.v20160524-1314.jar org.eclipse.jface.databinding_1.8.0.v20160420-2231.jar org.eclipse.core.databinding_1.6.0.v20160412-0910.jar com.ibm.icu_56.1.0.v201601250100.jar org.eclipse.core.databinding.beans_1.3.100.v20160509-1025.jar org.eclipse.core.databinding.property_1.6.0.v20160427-0852.jar org.eclipse.core.databinding.observable_1.6.0.v20160511-1747.jar commons-lang3-3.4.jar junit.jar org.hamcrest.core_1.3.0.v201303031735.jar"/>
+            </manifest>
+        	<zipfileset src="lib/jar-in-jar-loader.zip"/>
+            <fileset dir="build/classes_win64"/>
+            <zipfileset dir="lib/swt/win64" includes="swt.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.commands_3.8.0.v20160316-1921.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.equinox.common_3.8.0.v20160509-1230.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.jface_3.12.0.v20160518-1929.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.osgi_3.11.0.v20160504-1419.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.ui.workbench_3.108.0.v20160524-1314.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.jface.databinding_1.8.0.v20160420-2231.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.databinding_1.6.0.v20160412-0910.jar"/>
+            <zipfileset dir="lib" includes="com.ibm.icu_56.1.0.v201601250100.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.databinding.beans_1.3.100.v20160509-1025.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.databinding.property_1.6.0.v20160427-0852.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.databinding.observable_1.6.0.v20160511-1747.jar"/>
+            <zipfileset dir="lib" includes="commons-lang3-3.4.jar"/>
+            <zipfileset dir="lib" includes="junit.jar"/>
+            <zipfileset dir="lib" includes="org.hamcrest.core_1.3.0.v201303031735.jar"/>
+        </jar>
+    </target>
+	<!-- Creates the MovieManager using the SWT JAR for 32-bit Linux -->
+	<target name="create_run_jar_linux32" depends="compile_linux32">
+        <jar destfile="build/moviemanager_linux32.jar">
+            <manifest>
+                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="moviemanager.MovieManager"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ swt.jar org.eclipse.core.commands_3.8.0.v20160316-1921.jar org.eclipse.equinox.common_3.8.0.v20160509-1230.jar org.eclipse.jface_3.12.0.v20160518-1929.jar org.eclipse.osgi_3.11.0.v20160504-1419.jar org.eclipse.ui.workbench_3.108.0.v20160524-1314.jar org.eclipse.jface.databinding_1.8.0.v20160420-2231.jar org.eclipse.core.databinding_1.6.0.v20160412-0910.jar com.ibm.icu_56.1.0.v201601250100.jar org.eclipse.core.databinding.beans_1.3.100.v20160509-1025.jar org.eclipse.core.databinding.property_1.6.0.v20160427-0852.jar org.eclipse.core.databinding.observable_1.6.0.v20160511-1747.jar commons-lang3-3.4.jar junit.jar org.hamcrest.core_1.3.0.v201303031735.jar"/>
+            </manifest>
+            <zipfileset src="lib/jar-in-jar-loader.zip"/>
+            <fileset dir="build/classes_linux32"/>
+            <zipfileset dir="lib/swt/linux32" includes="swt.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.commands_3.8.0.v20160316-1921.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.equinox.common_3.8.0.v20160509-1230.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.jface_3.12.0.v20160518-1929.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.osgi_3.11.0.v20160504-1419.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.ui.workbench_3.108.0.v20160524-1314.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.jface.databinding_1.8.0.v20160420-2231.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.databinding_1.6.0.v20160412-0910.jar"/>
+            <zipfileset dir="lib" includes="com.ibm.icu_56.1.0.v201601250100.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.databinding.beans_1.3.100.v20160509-1025.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.databinding.property_1.6.0.v20160427-0852.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.databinding.observable_1.6.0.v20160511-1747.jar"/>
+            <zipfileset dir="lib" includes="commons-lang3-3.4.jar"/>
+            <zipfileset dir="lib" includes="junit.jar"/>
+            <zipfileset dir="lib" includes="org.hamcrest.core_1.3.0.v201303031735.jar"/>
+        </jar>
+    </target>
+	<!-- Creates the MovieManager using the SWT JAR for 64-bit Linux -->
+	<target name="create_run_jar_linux64" depends="compile_linux64">
+        <jar destfile="build/moviemanager_linux64.jar">
+            <manifest>
+            	<attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
+                <attribute name="Rsrc-Main-Class" value="moviemanager.MovieManager"/>
+                <attribute name="Class-Path" value="."/>
+                <attribute name="Rsrc-Class-Path" value="./ swt.jar org.eclipse.core.commands_3.8.0.v20160316-1921.jar org.eclipse.equinox.common_3.8.0.v20160509-1230.jar org.eclipse.jface_3.12.0.v20160518-1929.jar org.eclipse.osgi_3.11.0.v20160504-1419.jar org.eclipse.ui.workbench_3.108.0.v20160524-1314.jar org.eclipse.jface.databinding_1.8.0.v20160420-2231.jar org.eclipse.core.databinding_1.6.0.v20160412-0910.jar com.ibm.icu_56.1.0.v201601250100.jar org.eclipse.core.databinding.beans_1.3.100.v20160509-1025.jar org.eclipse.core.databinding.property_1.6.0.v20160427-0852.jar org.eclipse.core.databinding.observable_1.6.0.v20160511-1747.jar commons-lang3-3.4.jar junit.jar org.hamcrest.core_1.3.0.v201303031735.jar"/>
+            </manifest>
+            <zipfileset src="lib/jar-in-jar-loader.zip"/>
+            <fileset dir="build/classes_linux64"/>
+            <zipfileset dir="lib/swt/linux64" includes="swt.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.commands_3.8.0.v20160316-1921.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.equinox.common_3.8.0.v20160509-1230.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.jface_3.12.0.v20160518-1929.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.osgi_3.11.0.v20160504-1419.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.ui.workbench_3.108.0.v20160524-1314.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.jface.databinding_1.8.0.v20160420-2231.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.databinding_1.6.0.v20160412-0910.jar"/>
+            <zipfileset dir="lib" includes="com.ibm.icu_56.1.0.v201601250100.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.databinding.beans_1.3.100.v20160509-1025.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.databinding.property_1.6.0.v20160427-0852.jar"/>
+            <zipfileset dir="lib" includes="org.eclipse.core.databinding.observable_1.6.0.v20160511-1747.jar"/>
+            <zipfileset dir="lib" includes="commons-lang3-3.4.jar"/>
+            <zipfileset dir="lib" includes="junit.jar"/>
+            <zipfileset dir="lib" includes="org.hamcrest.core_1.3.0.v201303031735.jar"/>
+        </jar>
+    </target>
+	
+	<!-- Compiles the classes in the "src" folder using the SWT JAR for 32-bit Windows-->
+	<target name="compile_win32">
+	  	<mkdir dir="build/classes_win32"/>
+	  	<javac srcdir="src" destdir="build/classes_win32" classpathref="classpath_win32"/>
+		<copy todir="build/classes_win32" overwrite="true"><fileset dir="icons" includes="*"/></copy>
+	</target>
+	<!-- Compiles the classes in the "src" folder using the SWT JAR for 64-bit Windows-->
+	<target name="compile_win64">
+	  	<mkdir dir="build/classes_win64"/>
+	 	<javac srcdir="src" destdir="build/classes_win64" classpathref="classpath_win64"/>
+		<copy todir="build/classes_win64" overwrite="true"><fileset dir="icons" includes="*"/></copy>
+	</target>
+	<!-- Compiles the classes in the "src" folder using the SWT JAR for 32-bit Linux-->
+	<target name="compile_linux32">
+	  	<mkdir dir="build/classes_linux32"/>
+		<javac srcdir="src" destdir="build/classes_linux32" classpathref="classpath_linux32"/>
+		<copy todir="build/classes_linux32" overwrite="true"><fileset dir="icons" includes="*"/></copy>
+	</target>
+	<!-- Compiles the classes in the "src" folder using the SWT JAR for 32-bit Linux-->
+	<target name="compile_linux64">
+	  <mkdir dir="build/classes_linux64"/>
+	  <javac srcdir="src" destdir="build/classes_linux64" classpathref="classpath_linux64"/>
+	  <copy todir="build/classes_linux64" overwrite="true"><fileset dir="icons" includes="*"/></copy>
+	</target>		
+</project>
