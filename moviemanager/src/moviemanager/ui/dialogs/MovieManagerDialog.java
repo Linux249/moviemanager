@@ -439,6 +439,21 @@ public class MovieManagerDialog extends Dialog {
 								}
 							}
 						});
+						// context menu to show watched movies 
+						movieViewerMenuManager.add(new Action("Show watched Movies") {
+						    @Override
+						    public void run() {
+						    	// create the dialog
+						    	WatchedMoviesDialog dialog = new WatchedMoviesDialog(Display.getDefault().getActiveShell());
+						        // open the dialog and handle the OK button event
+						        if(dialog.open() == Window.OK) {
+						            if (dialog.getSelection() instanceof Movie) {
+						                // show the detail view of the selected movie from the dialog
+						                showMovie( (Movie) dialog.getSelection());
+						            }
+						        }
+						    }
+						});
 						// Sorting sub context menu
 						if(MovieManager.getInstance().getMovies().size() > 1) {
 							MenuManager sortByMenu = new MenuManager("Sort by", null);
