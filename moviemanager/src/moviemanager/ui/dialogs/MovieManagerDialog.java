@@ -675,6 +675,21 @@ public class MovieManagerDialog extends Dialog {
 								}
 							}
 						});
+						// context menu to show imdb performers
+						performerViewerMenuManager.add(new Action("Show IMDB Performers") {
+						    @Override
+						    public void run() {
+						        // create the dialog
+						        ShowIMDBPerformersDialog dialog = new ShowIMDBPerformersDialog(Display.getDefault().getActiveShell());
+						        // open the dialog and handle the OK button event
+						        if(dialog.open() == Window.OK) {
+						            if (dialog.getSelection() instanceof Performer) {
+						                // show the detail view of the selected performer from the dialog
+						                showPerformer( (Performer) dialog.getSelection());
+						            }
+						        }
+						    }
+						});
 						// Sorting sub context menu
 						if(MovieManager.getInstance().getMovies().size() > 1) {
 							MenuManager sortByMenu = new MenuManager("Sort by", null);
