@@ -1,7 +1,11 @@
 package moviemanager.util;
 
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.function.Function;
 
 import org.eclipse.core.databinding.DataBindingContext;
@@ -48,6 +52,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
+import org.w3c.dom.NamedNodeMap;
 
 import moviemanager.MovieManager;
 import moviemanager.data.AbstractModelObject;
@@ -55,6 +60,7 @@ import moviemanager.data.Movie;
 import moviemanager.data.Performer;
 import moviemanager.ui.MovieManagerRealm;
 import moviemanager.ui.dialogs.ElementSelectionDialog;
+import moviemanager.ui.widgets.SyncWithIMDBWidget;
 import moviemanager.ui.widgets.WatchDateWidget;
 
 /**
@@ -242,24 +248,28 @@ public class MovieManagerUIUtil {
 				widgetLayoutData.widthHint = 10;
 				widgetLayoutData.heightHint = 150;
 				((Control) widget).setLayoutData(widgetLayoutData);
-			} else {
-				widget = new Text(widgetComposite, SWT.BORDER | SWT.SINGLE);
+				
+				ctx.bindValue(WidgetProperties.text(SWT.Modify).observe(widget), modelAttribute);
+			} else if(modelAttributeName.equals("imdbID")) {
+				Text text = new Text(widgetComposite, SWT.BORDER | SWT.SINGLE);
 				GridData widgetLayoutData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 				widgetLayoutData.widthHint = 10;
-				((Control) widget).setLayoutData(widgetLayoutData);
-			}
-
-			if(modelAttributeName.equals("imdbID")) {
-				widgetCompositeLayout.numColumns = 2;
+				((Control) text).setLayoutData(widgetLayoutData);
+				
+				widgetCompositeLayout.numColumns = 3;
+				widget = new SyncWithIMDBWidget((Movie) modelObject, widgetComposite, SWT.NONE, text);
+				final SyncWithIMDBWidget widget2 = (SyncWithIMDBWidget) widget;
+				
 				Link openURL = new Link(widgetComposite, SWT.NONE);
 				openURL.setText("<A>View in IMDB</A>");
-				final Text widget_ = (Text) widget;
+				final Text widget_ = (Text) text;
 				openURL.addSelectionListener(new SelectionAdapter() {
 					@Override
 					public void widgetSelected(SelectionEvent e) {
 						String URL = "http://www.imdb.com";
 						if(modelObject instanceof Movie) {
 							URL += "/title/";
+							//widget2.setSyncObjects((Movie) modelObject, ((Movie) modelObject).getImdbID());
 						} else {
 							URL += "/name/";
 						}
@@ -267,22 +277,34 @@ public class MovieManagerUIUtil {
 						MovieManagerUtil.openWebPage(URL);
 					}
 				});
-				((Text) widget).addModifyListener(new ModifyListener() {
+				((Text) text).addModifyListener(new ModifyListener() {
 					@Override
 					public void modifyText(ModifyEvent e) {
-						if(!((Text) widget_).getText().trim().isEmpty()) {
+						if(!((Text) widget_).getText().trim().isEmpty()
+								&& ((Text) widget_).getText().length() == 9
+								&& ((Text) widget_).getText().startsWith("tt")) {
 							openURL.setEnabled(true);
+							//widget2.setSyncObjects((Movie) modelObject, ((Movie) modelObject).getImdbID());
+							//SyncMovieDetailsWithIMDB((Movie) modelObject, ((Text) widget_).getText());
 						} else {
 							openURL.setEnabled(false);
 						}
 					}
 				});
-				if(((Text) widget).getText().trim().isEmpty()) {
+				if(((Text) text).getText().trim().isEmpty()) {
 					openURL.setEnabled(false);
 				}
+				ctx.bindValue(WidgetProperties.text(SWT.Modify).observe(text), modelAttribute);
+			} else {
+					widget = new Text(widgetComposite, SWT.BORDER | SWT.SINGLE);
+					GridData widgetLayoutData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+					widgetLayoutData.widthHint = 10;
+					((Control) widget).setLayoutData(widgetLayoutData);
+					
+					ctx.bindValue(WidgetProperties.text(SWT.Modify).observe(widget), modelAttribute);
 			}
 
-			ctx.bindValue(WidgetProperties.text(SWT.Modify).observe(widget), modelAttribute);
+			
 		}
 		// Use a check box for boolean attributes
 		else if(modelAttribute.getValue() instanceof Boolean) {
@@ -672,8 +694,19 @@ public class MovieManagerUIUtil {
 	 *            the model object instance containing the model attribute
 	 */
 	public static <T> void updateBinding(Object widget, IObservableValue<T> modelAttribute, String modelAttributeName, DataBindingContext ctx, Object modelObject) {
+		if (widget != null)
 		if(modelAttribute.getValue() instanceof String) {
-			ctx.bindValue(WidgetProperties.text(SWT.Modify).observe(widget), modelAttribute);
+			if(modelAttributeName.equals("imdbID") ) {
+					//&& widget.getClass().getName().equals("moviemanager.ui.widgets.SyncWithIMDBWidget")) {
+				//System.out.println(widget.getClass().getName());
+				//SyncWithIMDBWidget w = (SyncWithIMDBWidget) widget;
+				//w.setHandledObject(modelObject);
+				System.out.println(widget.getClass().getName());
+				((SyncWithIMDBWidget) widget).setHandledObject(modelObject);
+				ctx.bindValue(WidgetProperties.text(SWT.Modify).observe(((SyncWithIMDBWidget) widget).getText()), modelAttribute);
+			} else {
+				ctx.bindValue(WidgetProperties.text(SWT.Modify).observe(widget), modelAttribute);
+			}
 		} else if(modelAttribute.getValue() instanceof Boolean) {
 			ctx.bindValue(WidgetProperties.selection().observe(widget), modelAttribute);
 		} else if(modelAttribute.getValueType() == Date.class) {
