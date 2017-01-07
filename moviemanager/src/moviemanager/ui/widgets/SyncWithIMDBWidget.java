@@ -84,13 +84,14 @@ public class SyncWithIMDBWidget extends LabelActionWidget {
 		
 		Movie movie = (Movie) this.handledObject;
 		movie.setDescription("Beschreibung geändert.");
-		NamedNodeMap movieDetails = null; //OMDBAPI.FetchMovieDetailsByID(IMDB_ID);
+		NamedNodeMap movieDetails = OMDBAPI.FetchMovieDetailsByID(IMDB_ID);
 		if (movieDetails == null) return;
-		
-		if (movieDetails.getNamedItem("Title") != null)
-			movie.setTitle(movieDetails.getNamedItem("Title").getNodeValue());
-		if (movieDetails.getNamedItem("Released") != null) {
-			String dateStr = movieDetails.getNamedItem("Released").getNodeValue();
+		if (movieDetails.getNamedItem("title") != null)
+		{			
+			movie.setTitle(movieDetails.getNamedItem("title").getNodeValue());
+		}
+		if (movieDetails.getNamedItem("released") != null) {
+			String dateStr = movieDetails.getNamedItem("released").getNodeValue();
 			DateFormat format = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
 			Date date;
 			try {
@@ -98,17 +99,17 @@ public class SyncWithIMDBWidget extends LabelActionWidget {
 				movie.setReleaseDate(date);
 			} catch (ParseException e) {}
 		}
-		if (movieDetails.getNamedItem("Runtime") != null) {
-			String runtimeStr = movieDetails.getNamedItem("Runtime").getNodeValue();
+		if (movieDetails.getNamedItem("runtime") != null) {
+			String runtimeStr = movieDetails.getNamedItem("runtime").getNodeValue();
 			int runtime = Integer.parseInt(runtimeStr.substring(0, runtimeStr.length() - 4));
 			movie.setRuntime(runtime);
 		}
-		if (movieDetails.getNamedItem("Country") != null)
-			movie.setCountry(movieDetails.getNamedItem("Country").getNodeValue());
-		if (movieDetails.getNamedItem("Plot") != null)
-			movie.setDescription(movieDetails.getNamedItem("Plot").getNodeValue());
-		if (movieDetails.getNamedItem("Language") != null)
-			movie.setLanguage(movieDetails.getNamedItem("Language").getNodeValue());
+		if (movieDetails.getNamedItem("country") != null)
+			movie.setCountry(movieDetails.getNamedItem("country").getNodeValue());
+		if (movieDetails.getNamedItem("plot") != null)
+			movie.setDescription(movieDetails.getNamedItem("plot").getNodeValue());
+		if (movieDetails.getNamedItem("language") != null)
+			movie.setLanguage(movieDetails.getNamedItem("language").getNodeValue());
 		
 		//TODO add performers
 	}

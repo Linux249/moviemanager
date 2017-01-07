@@ -257,7 +257,7 @@ public class MovieManagerUIUtil {
 				((Control) text).setLayoutData(widgetLayoutData);
 				
 				widgetCompositeLayout.numColumns = 3;
-				widget = new SyncWithIMDBWidget((Movie) modelObject, widgetComposite, SWT.NONE, text);
+				widget = new SyncWithIMDBWidget(modelObject, widgetComposite, SWT.NONE, text);
 				final SyncWithIMDBWidget widget2 = (SyncWithIMDBWidget) widget;
 				
 				Link openURL = new Link(widgetComposite, SWT.NONE);
@@ -284,6 +284,7 @@ public class MovieManagerUIUtil {
 								&& ((Text) widget_).getText().length() == 9
 								&& ((Text) widget_).getText().startsWith("tt")) {
 							openURL.setEnabled(true);
+							widget2.setSyncObjects((Movie) modelObject, ((Text) widget_).getText());
 							//widget2.setSyncObjects((Movie) modelObject, ((Movie) modelObject).getImdbID());
 							//SyncMovieDetailsWithIMDB((Movie) modelObject, ((Text) widget_).getText());
 						} else {
