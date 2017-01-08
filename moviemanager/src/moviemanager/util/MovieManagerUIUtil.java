@@ -252,6 +252,10 @@ public class MovieManagerUIUtil {
 				ctx.bindValue(WidgetProperties.text(SWT.Modify).observe(widget), modelAttribute);
 			} else if(modelAttributeName.equals("imdbID")) {
 				Text text = new Text(widgetComposite, SWT.BORDER | SWT.SINGLE);
+				
+				Link openURL = new Link(widgetComposite, SWT.NONE);
+				openURL.setText("<A>View in IMDB</A>");
+				
 				GridData widgetLayoutData = new GridData(SWT.FILL, SWT.CENTER, true, false);
 				widgetLayoutData.widthHint = 10;
 				((Control) text).setLayoutData(widgetLayoutData);
@@ -260,8 +264,6 @@ public class MovieManagerUIUtil {
 				widget = new SyncWithIMDBWidget(modelObject, widgetComposite, SWT.NONE, text);
 				final SyncWithIMDBWidget widget2 = (SyncWithIMDBWidget) widget;
 				
-				Link openURL = new Link(widgetComposite, SWT.NONE);
-				openURL.setText("<A>View in IMDB</A>");
 				final Text widget_ = (Text) text;
 				openURL.addSelectionListener(new SelectionAdapter() {
 					@Override
@@ -284,7 +286,8 @@ public class MovieManagerUIUtil {
 								&& ((Text) widget_).getText().length() == 9
 								&& ((Text) widget_).getText().startsWith("tt")) {
 							openURL.setEnabled(true);
-							widget2.setSyncObjects((Movie) modelObject, ((Text) widget_).getText());
+							if (modelObject instanceof Movie)
+								widget2.setSyncObjects((Movie) modelObject, ((Text) widget_).getText());
 							//widget2.setSyncObjects((Movie) modelObject, ((Movie) modelObject).getImdbID());
 							//SyncMovieDetailsWithIMDB((Movie) modelObject, ((Text) widget_).getText());
 						} else {
@@ -698,11 +701,6 @@ public class MovieManagerUIUtil {
 		if (widget != null)
 		if(modelAttribute.getValue() instanceof String) {
 			if(modelAttributeName.equals("imdbID") ) {
-					//&& widget.getClass().getName().equals("moviemanager.ui.widgets.SyncWithIMDBWidget")) {
-				//System.out.println(widget.getClass().getName());
-				//SyncWithIMDBWidget w = (SyncWithIMDBWidget) widget;
-				//w.setHandledObject(modelObject);
-				System.out.println(widget.getClass().getName());
 				((SyncWithIMDBWidget) widget).setHandledObject(modelObject);
 				ctx.bindValue(WidgetProperties.text(SWT.Modify).observe(((SyncWithIMDBWidget) widget).getText()), modelAttribute);
 			} else {

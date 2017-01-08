@@ -8,11 +8,17 @@ import java.util.Locale;
 
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.internal.win32.CREATESTRUCT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.MessageBox;
 import org.w3c.dom.NamedNodeMap;
 
+import moviemanager.MovieManager;
 import moviemanager.data.Movie;
+import moviemanager.data.Performer;
+import moviemanager.util.MovieManagerUtil.BadConnectionException;
+import moviemanager.util.MovieManagerUtil.MovieManagerException;
 import moviemanager.util.OMDBAPIFetcher;
 
 /**
@@ -33,7 +39,6 @@ public class SyncWithIMDBWidget extends LabelActionWidget {
 	}
 
 	public void setSyncObjects(Movie m, String IMDB) {
-		System.out.println(m.getTitle());
 		movie = m;
 		IMDB_ID = IMDB;
 	}
@@ -49,7 +54,10 @@ public class SyncWithIMDBWidget extends LabelActionWidget {
 			actionLink.removeSelectionListener(actionLinkListener);
 		}
 		actionLink.setText("<A>Sync movie with IMDB</A>");
-		//System.out.println(movie.getTitle());
+		if (handledObject instanceof Performer)
+			actionLink.setEnabled(false);
+		else
+			actionLink.setEnabled(true);
 		actionLinkListener = new SelectionListener() {
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -82,14 +90,29 @@ public class SyncWithIMDBWidget extends LabelActionWidget {
 	 */
 	private void SyncMovieDetailsWithIMDB () {
 		
+		NamedNodeMap movieDetails = null;
 		Movie movie = (Movie) this.handledObject;
-		movie.setDescription("Beschreibung geändert.");
-		NamedNodeMap movieDetails = OMDBAPI.FetchMovieDetailsByID(IMDB_ID);
+		try {
+			movieDetails = OMDBAPI.FetchMovieDetailsByID(movie.getImdbID());
+			if (movieDetails == null) return;
+			if (movieDetails.getNamedItem("Response") != null)
+				throw new MovieManagerException("Not a valid id.");
+		} catch (BadConnectionException e) {
+			MessageBox messageBox = new MessageBox(getShell());
+	        messageBox.setText("IMDB synchronization error");
+	        messageBox.setMessage("Could not access OMDB. Check internet connection. Error type: " + e.getMessage());
+	        messageBox.open();
+		} catch (MovieManagerException e) {
+			MessageBox messageBox = new MessageBox(getShell());
+	        messageBox.setText("IMDB synchronization error");
+	        messageBox.setMessage("Not a valid IMDB id.");
+	        messageBox.open();
+        }
+		
 		if (movieDetails == null) return;
 		if (movieDetails.getNamedItem("title") != null)
-		{			
 			movie.setTitle(movieDetails.getNamedItem("title").getNodeValue());
-		}
+
 		if (movieDetails.getNamedItem("released") != null) {
 			String dateStr = movieDetails.getNamedItem("released").getNodeValue();
 			DateFormat format = new SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH);
@@ -112,6 +135,21 @@ public class SyncWithIMDBWidget extends LabelActionWidget {
 			movie.setLanguage(movieDetails.getNamedItem("language").getNodeValue());
 		
 		//TODO add performers
+		if (movieDetails.getNamedItem("actors") != null)
+		{
+			String actors = movieDetails.getNamedItem("actors").getNodeValue();
+			String[] actorsSplit = actors.split(", ");
+			for (int i = 0; i < actorsSplit.length; i++) {
+				String firstName = actorsSplit[i].substring(0, actorsSplit[i].lastIndexOf(" "));
+				String lastName = actorsSplit[i].substring(actorsSplit[i].lastIndexOf(" ") + 1);
+				Performer p = MovieManager.getInstance().getPerformer(actorsSplit[i]); 
+				if (p == null)
+					MovieManager.getInstance().getDialog().addPerformer(movie, firstName, lastName);
+				else
+					p.linkMovie(movie);
+			}
+			
+		}
 	}
 
 }

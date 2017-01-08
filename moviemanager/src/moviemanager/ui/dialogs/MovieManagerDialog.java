@@ -943,8 +943,12 @@ public class MovieManagerDialog extends Dialog {
 	 * 
 	 * @param m
 	 *            the movie that the performer is linked to. Can be null, in which case the movie is selected from a dialog
+	 * @param firstName
+	 * 			  the first name of the newly created performer 
+	 * @param lastName
+	 * 			  the last name of the newly created performer 
 	 */
-	public void addPerformer(Movie m) {
+	public void addPerformer(Movie m, String firstName, String lastName) {
 		if(m == null) {
 			// Make sure the newly created performer is always linked to a movie
 			ElementSelectionDialog dialog = new ElementSelectionDialog(Display.getDefault().getActiveShell(), Movie.class);
@@ -955,8 +959,13 @@ public class MovieManagerDialog extends Dialog {
 		}
 		if(m != null) {
 			Performer toAdd = new Performer();
-			toAdd.setFirstName("New");
-			toAdd.setLastName("Performer");
+			if (firstName != null && lastName != null) {
+				toAdd.setFirstName(firstName);
+				toAdd.setLastName(lastName);
+			} else {
+				toAdd.setFirstName("New");
+				toAdd.setLastName("Performer");
+			}
 			toAdd.linkMovie(m);
 
 			// If the movie database is empty prior to adding the movie, remove the info label and add the widgets for the fields
@@ -994,6 +1003,16 @@ public class MovieManagerDialog extends Dialog {
 
 	}
 
+	/**
+	 * Adds a new performer to the performer database and handles the disposal and creation of widgets.
+	 * 
+	 * @param m
+	 *            the movie that the performer is linked to. Can be null, in which case the movie is selected from a dialog
+	 */
+	public void addPerformer(Movie m) {
+		addPerformer(m, null, null);
+	}
+	
 	/**
 	 * Removes the currently selected movie from the database and handles the disposal and creation of widgets.
 	 */

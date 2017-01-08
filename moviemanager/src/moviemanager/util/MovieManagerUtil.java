@@ -54,6 +54,18 @@ public class MovieManagerUtil {
 	}
 
 	/**
+	 * Exception that is thrown whenever OMDB data cannot be loaded, e. g. no internet connection.
+	 *
+	 */
+	public static class BadConnectionException extends Exception {
+		private static final long serialVersionUID = -3931947261477571350L;
+
+		public BadConnectionException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
 	 * Retrieves the data provided by the OMBDb API for a movie with the given title and the given year.
 	 * 
 	 * @param title
