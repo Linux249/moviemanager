@@ -141,6 +141,7 @@ public class MovieManagerDialog extends Dialog {
 		moviePropertiesList = new ArrayList<String>();
 		moviePropertiesList.add("title");
 		moviePropertiesList.add("watchDate");
+		moviePropertiesList.add("returnDate");
 		moviePropertiesList.add("description");
 		moviePropertiesList.add("releaseDate");
 		moviePropertiesList.add("rating");

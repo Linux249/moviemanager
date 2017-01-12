@@ -62,6 +62,7 @@ import moviemanager.ui.MovieManagerRealm;
 import moviemanager.ui.dialogs.ElementSelectionDialog;
 import moviemanager.ui.widgets.SyncWithIMDBWidget;
 import moviemanager.ui.widgets.WatchDateWidget;
+import moviemanager.ui.widgets.ReturnDateWidget;
 
 /**
  * Provides various UI utility functions for the Movie Manager application.
@@ -326,7 +327,13 @@ public class MovieManagerUIUtil {
 				GridData widgetLayoutData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
 				widgetLayoutData.widthHint = 10;
 				((Control) widget).setLayoutData(widgetLayoutData);
-			} else {
+			} else if(modelAttributeName.equals("returnDate")) {
+				widget = new ReturnDateWidget(modelObject, widgetComposite, SWT.NONE);
+				GridData widgetLayoutData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
+				widgetLayoutData.widthHint = 10;
+				((Control) widget).setLayoutData(widgetLayoutData);
+			}			
+			else {
 				if(modelAttribute.getValue() != null) {
 					widget = new DateTime(widgetComposite, SWT.BORDER | SWT.DATE | SWT.DROP_DOWN);
 
@@ -711,6 +718,14 @@ public class MovieManagerUIUtil {
 		} else if(modelAttribute.getValueType() == Date.class) {
 			if(modelAttributeName.equals("watchDate")) {
 				WatchDateWidget w = (WatchDateWidget) widget;
+				w.setHandledObject(modelObject);
+			} else {
+				ctx.bindValue(WidgetProperties.selection().observe(widget), modelAttribute);
+			}
+		} //returnDate
+		  else if(modelAttribute.getValueType() == Date.class) {
+			if(modelAttributeName.equals("returnDate")) {
+				ReturnDateWidget w = (ReturnDateWidget) widget;
 				w.setHandledObject(modelObject);
 			} else {
 				ctx.bindValue(WidgetProperties.selection().observe(widget), modelAttribute);

@@ -34,6 +34,8 @@ public class Movie extends AbstractModelObject implements Serializable {
 	// TODO: Add attribute(s) that allow checking whether a movie is loaned
 	/** Most recent watch date. **/
 	private Date watchDate;
+	/** lend Date**/
+	private Date returnDate;
 
 	/** Runtime in minutes. **/
 	private int runtime;
@@ -77,6 +79,8 @@ public class Movie extends AbstractModelObject implements Serializable {
 
 		this.releaseDate = new Date();
 		this.watchDate = null;
+		
+		this.returnDate = null;
 
 		this.runtime = 0;
 		this.rating = 0;
@@ -152,6 +156,16 @@ public class Movie extends AbstractModelObject implements Serializable {
 		Date oldValue = this.watchDate;
 		this.watchDate = watchDate;
 		firePropertyChange("watchDate", oldValue, watchDate);
+	}
+	
+	public Date getReturnDate() {
+		return returnDate;
+	}
+
+	public void setReturnDate(Date returnDate) {
+		Date oldValue = this.returnDate;
+		this.returnDate = returnDate;
+		firePropertyChange("returnDate", oldValue, returnDate);
 	}
 
 	public int getRuntime() {
