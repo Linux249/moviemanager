@@ -49,7 +49,7 @@ public class SyncWithIMDBWidget extends LabelActionWidget {
 	
 	@Override
 	protected void updateWidgets() {
-
+		
 		if(actionLinkListener != null) {
 			actionLink.removeSelectionListener(actionLinkListener);
 		}

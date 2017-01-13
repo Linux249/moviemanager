@@ -237,7 +237,7 @@ public class MovieManagerUIUtil {
 
 		widgetComposite.setLayout(widgetCompositeLayout);
 		widgetComposite.setLayoutData(widgetCompositeLayoutData);
-
+		
 		Object widget = widgetComposite;
 		// Use a single-line text field for string attributes
 		if(modelAttribute.getValue() instanceof String || modelAttribute.getValueType() == String.class) {
@@ -307,9 +307,7 @@ public class MovieManagerUIUtil {
 					((Control) widget).setLayoutData(widgetLayoutData);
 					
 					ctx.bindValue(WidgetProperties.text(SWT.Modify).observe(widget), modelAttribute);
-			}
-
-			
+			}			
 		}
 		// Use a check box for boolean attributes
 		else if(modelAttribute.getValue() instanceof Boolean) {
@@ -327,12 +325,15 @@ public class MovieManagerUIUtil {
 				GridData widgetLayoutData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
 				widgetLayoutData.widthHint = 10;
 				((Control) widget).setLayoutData(widgetLayoutData);
-			} else if(modelAttributeName.equals("returnDate")) {
+			} else if(modelAttributeName.equals("returnDate")) {		
+				widgetCompositeLayout.numColumns = 2;
+				DateTime dateWidget = new DateTime(widgetComposite, SWT.BORDER | SWT.DATE | SWT.DROP_DOWN);
 				widget = new ReturnDateWidget(modelObject, widgetComposite, SWT.NONE);
 				GridData widgetLayoutData = new GridData(SWT.FILL, SWT.BEGINNING, true, false);
 				widgetLayoutData.widthHint = 10;
 				((Control) widget).setLayoutData(widgetLayoutData);
 			}			
+			//Calendar Widget
 			else {
 				if(modelAttribute.getValue() != null) {
 					widget = new DateTime(widgetComposite, SWT.BORDER | SWT.DATE | SWT.DROP_DOWN);
@@ -719,18 +720,16 @@ public class MovieManagerUIUtil {
 			if(modelAttributeName.equals("watchDate")) {
 				WatchDateWidget w = (WatchDateWidget) widget;
 				w.setHandledObject(modelObject);
-			} else {
+			}
+			else if(modelAttributeName.equals("returnDate")) {
+					ReturnDateWidget w = (ReturnDateWidget) widget;
+					w.setHandledObject(modelObject);				
+			}
+			else {
 				ctx.bindValue(WidgetProperties.selection().observe(widget), modelAttribute);
 			}
-		} //returnDate
-		  else if(modelAttribute.getValueType() == Date.class) {
-			if(modelAttributeName.equals("returnDate")) {
-				ReturnDateWidget w = (ReturnDateWidget) widget;
-				w.setHandledObject(modelObject);
-			} else {
-				ctx.bindValue(WidgetProperties.selection().observe(widget), modelAttribute);
-			}
-		} else if(modelAttribute.getValueType() == int.class) {
+		} 
+		   else if(modelAttribute.getValueType() == int.class) {
 			ctx.bindValue(WidgetProperties.selection().observe(widget), modelAttribute);
 		} else if(modelAttribute.getValueType() == double.class) {
 			IConverter convertDoubleToString = IConverter.create(double.class, String.class, (o1) -> Double.toString((Double) o1));

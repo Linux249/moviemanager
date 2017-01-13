@@ -34,7 +34,7 @@ public class Movie extends AbstractModelObject implements Serializable {
 	// TODO: Add attribute(s) that allow checking whether a movie is loaned
 	/** Most recent watch date. **/
 	private Date watchDate;
-	/** lend Date**/
+	/** returnDate**/
 	private Date returnDate;
 
 	/** Runtime in minutes. **/
